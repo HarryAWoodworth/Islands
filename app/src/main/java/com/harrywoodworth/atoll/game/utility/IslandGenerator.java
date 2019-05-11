@@ -2,6 +2,7 @@ package com.harrywoodworth.atoll.game.utility;
 
 import android.util.Log;
 import com.harrywoodworth.atoll.game.island.CreationPoint;
+import com.harrywoodworth.atoll.game.island.ForestGrowth;
 import com.harrywoodworth.atoll.game.island.Island;
 import com.harrywoodworth.atoll.game.island.landTypes.*;
 
@@ -14,18 +15,37 @@ public class IslandGenerator {
     /// Create an Island within a square of size island_size
     /// Repeat a growth loop on the island growth_factor times
     /// Create the Island Code String and create an Island with it
-    /// Return the Island / null if error occured
-    public static Island generateIsland(int island_size, int growth_factor, GrowthPackage growth_package) {
+    /// Return the Island / null if error occurred
+    public static Island generateIsland(int island_size, GrowthPackage growth_package) {
 
-        if(island_size < 1) {
-            Log.e(TAG, "Island size too small: " + island_size + " In IslandGenerator.generateIsland(...)");
+        if(island_size < DesignManager.ISLAND_SIZE_MIN) {
+            Log.e(TAG, "Island size too small: " + island_size + " Min is " + DesignManager.ISLAND_SIZE_MIN);
+            return null;
+        } else if (island_size > DesignManager.ISLAND_SIZE_MAX) {
+            Log.e(TAG, "Island size too large: " + island_size + " Max is " + DesignManager.ISLAND_SIZE_MAX);
             return null;
         }
 
         // Create the island matrix and fill with spaces
         IslandLandType[][] islandMat = createMatrix(island_size);
 
-        /* [START GENERATE SAND] */
+        /* GENERATE SAND */
+        islandMat = genSand(islandMat, island_size);
+
+        /* GENERATE FOREST */
+        islandMat = genForest(islandMat, growth_package.forest_growth);
+
+        // Return a new Island from islandMat
+        if(islandMat == null) {
+            Log.e(TAG, "islandMat is null");
+            return null;
+        } else {
+            return new Island(matrixToString(islandMat), islandMat.length, islandMat[0].length);
+        }
+    }
+
+    /// Generate Sand
+    private static IslandLandType[][] genSand(IslandLandType[][] islandMat, int island_size) {
 
         // Generate random sand coverage
         int sandCoverage = (int)(island_size * ThreadLocalRandom.current().nextDouble(DesignManager.ISLAND_CREATION_SAND_RANGE_LOW,DesignManager.ISLAND_CREATION_SAND_RANGE_HIGH));
@@ -92,22 +112,16 @@ public class IslandGenerator {
         }
 
         // Crop islandMat
-        islandMat = cropToIsland(islandMat, upperLeft, bottomRight);
+        return cropToIsland(islandMat, upperLeft, bottomRight);
 
-        /* [END GENERATE SAND] */
-
-        /* [START GENERATE FOREST] */
-
-
-
-        /* [END GENERATE FOREST] */
-
-        // Return a new Island from islandMat
-
-        return new Island(matrixToString(islandMat), islandMat.length, islandMat[0].length);
     }
 
-    /// Create, initialize, adn return the island matrix
+    /// Generate Forest
+    private static IslandLandType[][] genForest(IslandLandType[][] islandMat, ForestGrowth forestGrowth) {
+        return null;
+    }
+
+    /// Create, initialize, and return the island matrix
     private static IslandLandType[][] createMatrix(int island_size) {
         IslandLandType[][] islandMat = new IslandLandType[island_size][island_size];
         for(int col = 0; col < island_size; col++) {

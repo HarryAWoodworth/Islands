@@ -19,7 +19,7 @@ class FullscreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         var islandSize = 1500
-        var island = IslandGenerator.generateIsland(islandSize,0, GrowthPackage())
+        var island = IslandGenerator.generateIsland(islandSize, GrowthPackage())
 
         setContentView(R.layout.activity_fullscreen)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -29,7 +29,7 @@ class FullscreenActivity : AppCompatActivity() {
         fullscreen_content.adapter = islandAdapter
 
         button.setOnClickListener{
-            island = IslandGenerator.generateIsland(islandSize,0, GrowthPackage())
+            island = IslandGenerator.generateIsland(islandSize, GrowthPackage())
             fullscreen_content.numColumns = island.width
             islandAdapter = IslandGridAdapter(this, island)
             fullscreen_content.adapter = islandAdapter
