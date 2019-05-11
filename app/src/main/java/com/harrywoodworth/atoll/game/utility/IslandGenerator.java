@@ -2,7 +2,6 @@ package com.harrywoodworth.atoll.game.utility;
 
 import android.util.Log;
 import com.harrywoodworth.atoll.game.island.CreationPoint;
-import com.harrywoodworth.atoll.game.island.ForestGrowth;
 import com.harrywoodworth.atoll.game.island.Island;
 import com.harrywoodworth.atoll.game.island.landTypes.*;
 

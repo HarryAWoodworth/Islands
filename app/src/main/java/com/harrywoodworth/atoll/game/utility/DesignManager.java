@@ -15,6 +15,7 @@ public final class DesignManager {
     public static final int DEFAULT_FOREST_GROWTH_FACTOR = 4;
 
     public static final double DEFAULT_ROCK_EVOLUTION_RATE = 0.0;
+    public static final int DEFAULT_ROCK_GROWTH_FACTOR = 4;
 
     public static final double ISLAND_CREATION_SAND_RANGE_LOW = 0.1;
     public static final double ISLAND_CREATION_SAND_RANGE_HIGH = 0.4;
