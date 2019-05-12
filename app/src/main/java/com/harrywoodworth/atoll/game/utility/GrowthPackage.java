@@ -1,5 +1,8 @@
 package com.harrywoodworth.atoll.game.utility;
 
+import com.harrywoodworth.atoll.game.island.ForestGrowth;
+import com.harrywoodworth.atoll.game.island.RockGrowth;
+
 /// Holds variables for determining how an Island changes in growth loops
 /// Used in IslandGenerator
 public class GrowthPackage {

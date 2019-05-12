@@ -10,4 +10,12 @@ public class Point {
         row = _row;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Point) {
+            Point p = (Point)obj;
+            return p.col == this.col && p.row == this.row;
+        }
+        return false;
+    }
 }

@@ -3,7 +3,9 @@ package com.harrywoodworth.atoll
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
+import com.harrywoodworth.atoll.game.island.landTypes.Sand
 import com.harrywoodworth.atoll.game.utility.GrowthPackage
 import com.harrywoodworth.atoll.game.utility.IslandGenerator
 import com.harrywoodworth.atoll.game.utility.IslandGridAdapter
@@ -81,6 +83,9 @@ class FullscreenActivity : AppCompatActivity() {
     }
 
     companion object {
+
+        private val TAG = "FULLSCREEN_ACTIVITY"
+
         /**
          * Whether or not the system UI should be auto-hidden after
          * [AUTO_HIDE_DELAY_MILLIS] milliseconds.

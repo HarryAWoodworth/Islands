@@ -10,8 +10,8 @@ import java.util.Random;
 
 public class CreationPoint extends Point {
 
-    private ArrayList<Point> adjacencyList;
-    private IslandLandType type;
+    private ArrayList<CreationPoint> adjacencyList;
+    public IslandLandType type;
 
     public CreationPoint(int col, int row, IslandLandType _type) {
         super(col,row);
@@ -20,7 +20,7 @@ public class CreationPoint extends Point {
     }
 
     /// Return a random point from AdjacencyList after updating the list
-    public Point getRandomPoint(IslandLandType[][] mat) {
+    public CreationPoint getRandomPoint(IslandLandType[][] mat) {
         findCoverableAdjacent(mat);
 
         // Return NullPoint if empty adjacency list
@@ -45,31 +45,40 @@ public class CreationPoint extends Point {
         // Left
         if(col > 0) {
             t = mat[col-1][row];
-            Log.d(TAG,"mat[" + (col-1) + "][" + row + "] is type " + t.getName());
-            if(type.higherPrecedence(t))
-                adjacencyList.add(new Point(col - 1, row));
+            //Log.d(TAG,"mat[" + (col-1) + "][" + row + "] is type " + t.getName());
+            if(type.higherPrecedence(t)) {
+                Log.d(TAG,type.getName() + " is higher precedence than " + t.getName());
+                adjacencyList.add(new CreationPoint(col - 1, row, t));
+            }
         }
         // Right
         if(col < mat.length-1) {
             t = mat[col+1][row];
-            Log.d(TAG,"mat[" + (col+1) + "][" + row + "] is type " + t.getName());
-            if(type.higherPrecedence(t))
-                adjacencyList.add(new Point(col+1,row));
+            //Log.d(TAG,"mat[" + (col+1) + "][" + row + "] is type " + t.getName());
+            if(type.higherPrecedence(t)) {
+                adjacencyList.add(new CreationPoint(col + 1, row, t));
+            }
         }
         // Down
         if(row < mat.length-1) {
             t = mat[col][row+1];
-            Log.d(TAG,"mat[" + col + "][" + (row+1) + "] is type " + t.getName());
-            if(type.higherPrecedence(t))
-                adjacencyList.add(new Point(col,row+1));
+            //Log.d(TAG,"mat[" + col + "][" + (row+1) + "] is type " + t.getName());
+            if(type.higherPrecedence(t)) {
+                adjacencyList.add(new CreationPoint(col, row + 1, t));
+            }
         }
         // Up
         if(row > 0) {
             t = mat[col][row-1];
-            Log.d(TAG,"mat[" + col + "][" + (row-1) + "] is type " + t.getName());
-            if(type.higherPrecedence(t))
-                adjacencyList.add(new Point(col,row-1));
+            //Log.d(TAG,"mat[" + col + "][" + (row-1) + "] is type " + t.getName());
+            if(type.higherPrecedence(t)) {
+                adjacencyList.add(new CreationPoint(col, row - 1, t));
+            }
         }
+
+//        for(CreationPoint c : adjacencyList) {
+//            Log.d(TAG,col + "," + row + " says " + c.col + "," + c.row + " is a valid point to cover of type " + c.type.getName());
+//        }
     }
 
     public boolean emptyAdjacency(IslandLandType[][] mat) {

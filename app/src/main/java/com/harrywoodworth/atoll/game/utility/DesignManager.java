@@ -11,11 +11,12 @@ public final class DesignManager {
     public static final char CHAR_SAND = 's';
     public static final char CHAR_WATER = ' ';
 
-    public static final double DEFAULT_FOREST_EVOLUTION_RATE = 0.0;
-    public static final int DEFAULT_FOREST_GROWTH_FACTOR = 4;
+    public static final double DEFAULT_FOREST_EVOLUTION_RATE = 0.7;
+    public static final int DEFAULT_FOREST_GROWTH_FACTOR = 3;
+    public static final int DEFAUL_FOREST_SEED_COUNT = 2;
 
     public static final double DEFAULT_ROCK_EVOLUTION_RATE = 0.0;
-    public static final int DEFAULT_ROCK_GROWTH_FACTOR = 4;
+    public static final int DEFAULT_ROCK_GROWTH_FACTOR = 0;
 
     public static final double ISLAND_CREATION_SAND_RANGE_LOW = 0.1;
     public static final double ISLAND_CREATION_SAND_RANGE_HIGH = 0.4;
