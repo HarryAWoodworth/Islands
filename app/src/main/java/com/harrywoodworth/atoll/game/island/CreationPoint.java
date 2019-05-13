@@ -49,6 +49,8 @@ public class CreationPoint extends Point {
             if(type.higherPrecedence(t)) {
                 Log.d(TAG,type.getName() + " is higher precedence than " + t.getName());
                 adjacencyList.add(new CreationPoint(col - 1, row, t));
+            } else {
+                Log.d(TAG,type.getName() + " is NOT higher precedence than " + t.getName() + " at " + col + "," + row);
             }
         }
         // Right
@@ -56,15 +58,21 @@ public class CreationPoint extends Point {
             t = mat[col+1][row];
             //Log.d(TAG,"mat[" + (col+1) + "][" + row + "] is type " + t.getName());
             if(type.higherPrecedence(t)) {
+                Log.d(TAG,type.getName() + " is higher precedence than " + t.getName());
                 adjacencyList.add(new CreationPoint(col + 1, row, t));
+            } else {
+                Log.d(TAG,type.getName() + " is NOT higher precedence than " + t.getName() + " at " + col + "," + row);
             }
         }
         // Down
-        if(row < mat.length-1) {
+        if(row < mat[0].length-1) {
             t = mat[col][row+1];
             //Log.d(TAG,"mat[" + col + "][" + (row+1) + "] is type " + t.getName());
             if(type.higherPrecedence(t)) {
+                Log.d(TAG,type.getName() + " is higher precedence than " + t.getName());
                 adjacencyList.add(new CreationPoint(col, row + 1, t));
+            } else {
+                Log.d(TAG,type.getName() + " is NOT higher precedence than " + t.getName() + " at " + col + "," + row);
             }
         }
         // Up
@@ -72,7 +80,10 @@ public class CreationPoint extends Point {
             t = mat[col][row-1];
             //Log.d(TAG,"mat[" + col + "][" + (row-1) + "] is type " + t.getName());
             if(type.higherPrecedence(t)) {
+                Log.d(TAG,type.getName() + " is higher precedence than " + t.getName());
                 adjacencyList.add(new CreationPoint(col, row - 1, t));
+            } else {
+                Log.d(TAG,type.getName() + " is NOT higher precedence than " + t.getName() + " at " + col + "," + row);
             }
         }
 

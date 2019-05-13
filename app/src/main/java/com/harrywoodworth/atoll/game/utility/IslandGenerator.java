@@ -34,7 +34,9 @@ public class IslandGenerator {
         islandMat = genSand(islandMat, island_size);
 
         /* GENERATE FOREST */
+        Log.d(TAG,"NOT: STARTING FOREST GEN");
         islandMat = genForest(islandMat, growth_package.forest_growth);
+        Log.d(TAG,"NOT: ENDING FOREST GEN");
 
         // Return a new Island from islandMat
         if(islandMat == null) {
@@ -132,35 +134,48 @@ public class IslandGenerator {
 
         for(Point p : findSeedLocations(islandMat, f, forestGrowth.getSeed_count())) {
             islandMat[p.col][p.row] = new Forest();
+            Log.d(TAG,"FOREST GEN: Added new Forest seed at " + p.col + "," + p.row);
             forestTracker.add(new CreationPoint(p.col, p.row, f));
         }
 
         // For every growth factor, evolve forests using evolution rates
         for(int i = 0; i < forestGrowth.getGrowth_factor(); i++) {
+
             // Break if no more grow-able forests
             if(forestTracker.isEmpty()) {
-                Log.d(TAG, "Exited due to empty forest tracker on iteration " + i);
+                Log.d(TAG, "FOREST GEN: Exited due to empty forest tracker on iteration " + i);
                 break;
             }
+
             ArrayList<CreationPoint> temp = new ArrayList<>(forestTracker);
-            for(CreationPoint p : temp) {
+            for(int j = 0; j < temp.size(); j++) {
+
+                CreationPoint p = temp.get(j);
+
                 // Remove if empty adjacency list
-                if(p.emptyAdjacency(islandMat))
+                if(p.emptyAdjacency(islandMat)) {
                     forestTracker.remove(p);
+                    Log.d(TAG,"FOREST GEN: Removed point " + p.col + "," + p.row + " due to empty adjacency list");
+                }
+
                 // Else get the point, create forest in islandMat, and add to list
                 else if(new Random().nextDouble() < forestGrowth.getForest_evolution_rate()){
-                    // Get point
+
                     CreationPoint cP = p.getRandomPoint(islandMat);
                     if(cP instanceof NullPoint) {
-                        Log.e(TAG,"getRandomPoint() returned NullPoint in Forest Gen");
+                        Log.e(TAG,"FOREST GEN: getRandomPoint() returned NullPoint");
                         return null;
                     }
-                    // Add to mat
+
                     islandMat[cP.col][cP.row] = f;
-                    Log.d(TAG, "On iteration " + i + " Forest created at " + cP.col + "," + cP.row);
-                    // Add to tracker
+                    Log.d(TAG, "FOREST GEN: On iteration " + i + " Forest created at " + cP.col + "," + cP.row);
+
+                    cP = new CreationPoint(cP.col,cP.row,f);
                     if(!cP.emptyAdjacency(islandMat)) {
+                        Log.d(TAG,"FOREST GEN: forest at " + cP.col + "," + cP.row + " added to forest tracker");
                         forestTracker.add(cP);
+                    } else {
+                        Log.d(TAG,"FOREST GEN: forest at " + cP.col + "," + cP.row + " NOT added to forest tracker");
                     }
                 }
 
@@ -168,6 +183,11 @@ public class IslandGenerator {
         }
 
         return islandMat;
+    }
+
+    /// Generate Apex Forest
+    private static IslandLandType[][] genApexForest(IslandLandType[][] islandMat, ApexForestGrowth apexForestGrowth) {
+
     }
 
     /// Create, initialize, and return the island matrix

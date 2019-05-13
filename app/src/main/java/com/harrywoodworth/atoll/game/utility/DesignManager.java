@@ -7,13 +7,13 @@ public final class DesignManager {
 
 
     public static final char CHAR_ROCK = '#';
-    public static final char CHAR_FOREST = 'F';
+    public static final char CHAR_FOREST = 'f';
     public static final char CHAR_SAND = 's';
     public static final char CHAR_WATER = ' ';
 
-    public static final double DEFAULT_FOREST_EVOLUTION_RATE = 1.0;
-    public static final int DEFAULT_FOREST_GROWTH_FACTOR = 20;
-    public static final int DEFAULT_FOREST_SEED_COUNT = 2;
+    public static final double DEFAULT_FOREST_EVOLUTION_RATE = 0.6; // Between 0.0 and 1.0
+    public static final int DEFAULT_FOREST_GROWTH_FACTOR = 10;
+    public static final int DEFAULT_FOREST_SEED_COUNT = 3;
 
     public static final double DEFAULT_ROCK_EVOLUTION_RATE = 0.0;
     public static final int DEFAULT_ROCK_GROWTH_FACTOR = 0;
