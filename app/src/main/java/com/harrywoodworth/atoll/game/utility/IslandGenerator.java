@@ -138,7 +138,10 @@ public class IslandGenerator {
         // For every growth factor, evolve forests using evolution rates
         for(int i = 0; i < forestGrowth.getGrowth_factor(); i++) {
             // Break if no more grow-able forests
-            if(forestTracker.isEmpty()) { break; }
+            if(forestTracker.isEmpty()) {
+                Log.d(TAG, "Exited due to empty forest tracker on iteration " + i);
+                break;
+            }
             ArrayList<CreationPoint> temp = new ArrayList<>(forestTracker);
             for(CreationPoint p : temp) {
                 // Remove if empty adjacency list
@@ -154,6 +157,7 @@ public class IslandGenerator {
                     }
                     // Add to mat
                     islandMat[cP.col][cP.row] = f;
+                    Log.d(TAG, "On iteration " + i + " Forest created at " + cP.col + "," + cP.row);
                     // Add to tracker
                     if(!cP.emptyAdjacency(islandMat)) {
                         forestTracker.add(cP);
