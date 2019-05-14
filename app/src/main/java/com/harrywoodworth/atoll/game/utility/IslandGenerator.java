@@ -1,13 +1,13 @@
 package com.harrywoodworth.atoll.game.utility;
 
 import android.util.Log;
-import com.harrywoodworth.atoll.game.island.ApexForestGrowth;
+import com.harrywoodworth.atoll.game.island.growths.ApexForestGrowth;
 import com.harrywoodworth.atoll.game.island.CreationPoint;
-import com.harrywoodworth.atoll.game.island.ForestGrowth;
+import com.harrywoodworth.atoll.game.island.growths.ForestGrowth;
 import com.harrywoodworth.atoll.game.island.Island;
+import com.harrywoodworth.atoll.game.island.growths.GrowthPackage;
 import com.harrywoodworth.atoll.game.island.landTypes.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -35,19 +35,19 @@ public class IslandGenerator {
         islandMat = genSand(islandMat, island_size);
 
         /* GENERATE FOREST */
-        islandMat = genForest(islandMat, growth_package.forest_growth);
+        islandMat = genForest(islandMat, growth_package.getForest_growth());
+
+        if(islandMat == null) {
+            Log.e(TAG, "islandMat is null after Forest Generation");
+            return null;
+        }
 
         /* GENERATE APEX FOREST */
-        islandMat = genApexForest(islandMat, growth_package.apex_forest_growth);
+        islandMat = genApexForest(islandMat, growth_package.getApex_forest_growth());
 
         // Return a new Island from islandMat
-        if(islandMat == null) {
-            Log.e(TAG, "islandMat is null");
-            return null;
-        } else {
-            Log.d(TAG, "Creating island of size " + islandMat.length + "x" + islandMat[0].length);
-            return new Island(matrixToString(islandMat), islandMat.length, islandMat[0].length);
-        }
+        Log.d(TAG, "Creating island of size " + islandMat.length + "x" + islandMat[0].length);
+        return new Island(matrixToString(islandMat), islandMat.length, islandMat[0].length);
     }
 
     /// Generate Sand

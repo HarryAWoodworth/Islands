@@ -3,10 +3,8 @@ package com.harrywoodworth.atoll
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.View
-import com.harrywoodworth.atoll.game.island.landTypes.Sand
-import com.harrywoodworth.atoll.game.utility.GrowthPackage
+import com.harrywoodworth.atoll.game.island.growths.GrowthPackage
 import com.harrywoodworth.atoll.game.utility.IslandGenerator
 import com.harrywoodworth.atoll.game.utility.IslandGridAdapter
 import kotlinx.android.synthetic.main.activity_fullscreen.*
@@ -21,7 +19,9 @@ class FullscreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         var islandSize = 1500
-        var island = IslandGenerator.generateIsland(islandSize, GrowthPackage())
+        var island = IslandGenerator.generateIsland(islandSize,
+            GrowthPackage()
+        )
 
         setContentView(R.layout.activity_fullscreen)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -31,7 +31,9 @@ class FullscreenActivity : AppCompatActivity() {
         fullscreen_content.adapter = islandAdapter
 
         button.setOnClickListener{
-            island = IslandGenerator.generateIsland(islandSize, GrowthPackage())
+            island = IslandGenerator.generateIsland(islandSize,
+                GrowthPackage()
+            )
             fullscreen_content.numColumns = island.width
             islandAdapter = IslandGridAdapter(this, island)
             fullscreen_content.adapter = islandAdapter

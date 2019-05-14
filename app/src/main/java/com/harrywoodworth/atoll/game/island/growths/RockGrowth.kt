@@ -1,4 +1,4 @@
-package com.harrywoodworth.atoll.game.island
+package com.harrywoodworth.atoll.game.island.growths
 
 import com.harrywoodworth.atoll.game.utility.DesignManager
 

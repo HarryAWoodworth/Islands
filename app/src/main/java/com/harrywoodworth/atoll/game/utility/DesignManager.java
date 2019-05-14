@@ -10,12 +10,12 @@ public final class DesignManager {
 
 
     /// Char representation
+    public static final char CHAR_WATER = ' ';
+    public static final char CHAR_SAND = ':';
+    public static final char CHAR_BRUSH = '.';
     public static final char CHAR_ROCK = '#';
     public static final char CHAR_FOREST = 'o';
     public static final char CHAR_APEX_FOREST = '0';
-    public static final char CHAR_SAND = 's';
-    public static final char CHAR_WATER = ' ';
-
 
     /// Forest
     public static final double DEFAULT_FOREST_EVOLUTION_RATE = 0.6;
@@ -27,6 +27,7 @@ public final class DesignManager {
     public static final double DEFAULT_APEX_FOREST_F_FACTOR = 0.05;
     public static final double DEFAULT_APEX_FOREST_APEX_FACTOR = 0.015;
     public static final double DEFAULT_APEX_FOREST_SAND_FACTOR = -0.5;
+
 
     /// Rock
     public static final double DEFAULT_ROCK_EVOLUTION_RATE = 0.0;
