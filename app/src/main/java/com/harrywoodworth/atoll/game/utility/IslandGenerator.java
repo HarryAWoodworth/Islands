@@ -1,6 +1,7 @@
 package com.harrywoodworth.atoll.game.utility;
 
 import android.util.Log;
+import com.harrywoodworth.atoll.game.island.ApexForestGrowth;
 import com.harrywoodworth.atoll.game.island.CreationPoint;
 import com.harrywoodworth.atoll.game.island.ForestGrowth;
 import com.harrywoodworth.atoll.game.island.Island;
@@ -34,9 +35,10 @@ public class IslandGenerator {
         islandMat = genSand(islandMat, island_size);
 
         /* GENERATE FOREST */
-        Log.d(TAG,"NOT: STARTING FOREST GEN");
         islandMat = genForest(islandMat, growth_package.forest_growth);
-        Log.d(TAG,"NOT: ENDING FOREST GEN");
+
+        /* GENERATE APEX FOREST */
+        islandMat = genApexForest(islandMat, growth_package.apex_forest_growth);
 
         // Return a new Island from islandMat
         if(islandMat == null) {
@@ -187,6 +189,48 @@ public class IslandGenerator {
 
     /// Generate Apex Forest
     private static IslandLandType[][] genApexForest(IslandLandType[][] islandMat, ApexForestGrowth apexForestGrowth) {
+
+        // Get every forest
+        ArrayList<CreationPoint> forests = new ArrayList<>();
+        Forest f = new Forest();
+        for(int col = 0; col < islandMat.length; col++) {
+            for(int row = 0; row < islandMat[0].length; row++) {
+                if(islandMat[col][row] instanceof Forest)
+                    forests.add(new CreationPoint(col,row,f));
+            }
+        }
+
+        /// Get factors from apexForestGrowth
+        double forest_factor = apexForestGrowth.getApex_forest_f_factor();
+        double apex_factor = apexForestGrowth.getApex_forest_apex_factor();
+        double sand_factor = apexForestGrowth.getApex_forest_sand_factor();
+
+        /// Loop through each forest and, using its neighbors, calculate if it evolves into an Apex Forest
+        for(CreationPoint cp : forests) {
+
+            double chance_to_evolve_to_apex = 0.0;
+            cp.type = new ApexForest();
+            ArrayList<CreationPoint> adjacent = cp.getAdjacencyList(islandMat);
+
+            for(CreationPoint p : adjacent) {
+                if(p.type instanceof Forest) {
+                    chance_to_evolve_to_apex += forest_factor;
+                } else if(p.type instanceof ApexForest) {
+                    chance_to_evolve_to_apex += apex_factor;
+                } else if(p.type instanceof Sand){
+                    chance_to_evolve_to_apex += sand_factor;
+                } else {
+                    Log.e(TAG,"APEX_FOREST GEN: Non forest/sand in adjacency list of Apex Forest: " + p.type.getName());
+                }
+            }
+
+            if(chance_to_evolve_to_apex >= new Random().nextDouble()) {
+                islandMat[cp.col][cp.row] = new ApexForest();
+                Log.d(TAG,"APEX_FOREST GENERATION: Created new Apex Forest at " + cp.col + "," + cp.row);
+            }
+        }
+
+        return islandMat;
 
     }
 

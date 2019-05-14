@@ -86,15 +86,16 @@ public class CreationPoint extends Point {
                 Log.d(TAG,type.getName() + " is NOT higher precedence than " + t.getName() + " at " + col + "," + row);
             }
         }
-
-//        for(CreationPoint c : adjacencyList) {
-//            Log.d(TAG,col + "," + row + " says " + c.col + "," + c.row + " is a valid point to cover of type " + c.type.getName());
-//        }
     }
 
     public boolean emptyAdjacency(IslandLandType[][] mat) {
         findCoverableAdjacent(mat);
         return adjacencyList.isEmpty();
+    }
+
+    public ArrayList<CreationPoint> getAdjacencyList(IslandLandType[][] mat) {
+        findCoverableAdjacent(mat);
+        return adjacencyList;
     }
 
     private static final String TAG = "CREATION_POINT";
