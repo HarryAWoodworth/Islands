@@ -1,5 +1,7 @@
 package com.harrywoodworth.atoll.game.utility;
 
+import java.util.Random;
+
 public final class DesignManager {
 
     // Island
@@ -17,10 +19,23 @@ public final class DesignManager {
     public static final char CHAR_FOREST = 'o';
     public static final char CHAR_APEX_FOREST = '0';
 
+
+    /// Lakes
+    public static final double DEFAULT_LAKE_EVOLUTION_RATE = 0.6;
+    public static final int DEFAULT_LAKE_GROWTH_FACTOR = 10;
+    public static final int DEFAULT_LAKE_SEED_COUNT = 3;
+    public static final double RANDOM_LAKE_EVOLUTION_RATE(){ return getRandomDouble(0.4,0.8); }
+    public static final int RANDOM_LAKE_GROWTH_FACTOR(){ return getRandomInt(5,13); }
+    public static final int RANDOM_LAKE_SEED_COUNT(){ return getRandomInt(0,4); }
+
     /// Forest
+
     public static final double DEFAULT_FOREST_EVOLUTION_RATE = 0.6;
     public static final int DEFAULT_FOREST_GROWTH_FACTOR = 10;
     public static final int DEFAULT_FOREST_SEED_COUNT = 3;
+    public static double RANDOM_FOREST_EVOLUTION_RATE(){ return getRandomDouble(0.5,0.8); }
+    public static int RANDOM_FOREST_GROWTH_FACTOR() { return getRandomInt(8,13); }
+    public static int RANDOM_FOREST_SEED_COUNT() { return getRandomInt(0,8); }
 
 
     /// Apex Forest
@@ -29,11 +44,13 @@ public final class DesignManager {
     public static final double DEFAULT_APEX_FOREST_SAND_FACTOR = -0.5;
 
 
-    /// Rock
-    public static final double DEFAULT_ROCK_EVOLUTION_RATE = 0.0;
-    public static final int DEFAULT_ROCK_GROWTH_FACTOR = 0;
-
-
+    /// Utility Methods
+    private static int getRandomInt(int min, int max) {
+        return new Random().nextInt((max - min) + 1) + min;
+    }
+    private static double getRandomDouble(double min, double max) {
+        return min + (max - min) * new Random().nextDouble();
+    }
 
 
 }

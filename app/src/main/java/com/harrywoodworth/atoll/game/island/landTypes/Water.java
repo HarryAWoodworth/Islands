@@ -11,7 +11,8 @@ public class Water implements IslandLandType {
 
     @Override
     public boolean higherPrecedence(IslandLandType i) {
-        return i instanceof Sand;
+        return      i instanceof Sand
+                ||  i instanceof Brush;
     }
 
     @Override

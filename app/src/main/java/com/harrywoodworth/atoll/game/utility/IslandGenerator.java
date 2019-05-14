@@ -1,12 +1,9 @@
 package com.harrywoodworth.atoll.game.utility;
 
 import android.util.Log;
-import com.harrywoodworth.atoll.game.island.growths.ApexForestGrowth;
+import com.harrywoodworth.atoll.game.island.growths.*;
 import com.harrywoodworth.atoll.game.island.CreationPoint;
-import com.harrywoodworth.atoll.game.island.growths.BrushGrowth;
-import com.harrywoodworth.atoll.game.island.growths.ForestGrowth;
 import com.harrywoodworth.atoll.game.island.Island;
-import com.harrywoodworth.atoll.game.island.growths.GrowthPackage;
 import com.harrywoodworth.atoll.game.island.landTypes.*;
 
 import java.util.ArrayList;
@@ -42,6 +39,9 @@ public class IslandGenerator {
 
         /* GENERATE BRUSH */
         islandMat = genBrush(islandMat);
+
+        /* GENERATE LAKES */
+        islandMat = genLakes(islandMat, growth_package.getLakeGrowth());
 
         /* GENERATE FOREST */
         islandMat = genForest(islandMat, growth_package.getForest_growth());
@@ -162,6 +162,67 @@ public class IslandGenerator {
 
     }
 
+    /// Generate Lakes
+    private static IslandLandType[][] genLakes(IslandLandType[][] islandMat, LakeGrowth lakeGrowth) {
+
+        Water w = new Water();
+
+        ArrayList<CreationPoint> lakeTracker = new ArrayList<>();
+
+        for(Point p : findSeedLocations(islandMat, w, lakeGrowth.getSeed_count())) {
+            islandMat[p.col][p.row] = w;
+            Log.d(TAG,"LAKE GEN: Added new Lake seed at " + p.col + "," + p.row);
+            lakeTracker.add(new CreationPoint(p.col, p.row, w));
+        }
+
+        // For every growth factor, evolve forests using evolution rates
+        for(int i = 0; i < lakeGrowth.lGrowthFactRand(); i++) {
+
+            // Break if no more grow-able forests
+            if(lakeTracker.isEmpty()) {
+                Log.d(TAG, "LAKE GEN: Exited due to empty lake tracker on iteration " + i);
+                break;
+            }
+
+            ArrayList<CreationPoint> temp = new ArrayList<>(lakeTracker);
+            for(int j = 0; j < temp.size(); j++) {
+
+                CreationPoint p = temp.get(j);
+
+                // Remove if empty adjacency list
+                if(p.emptyAdjacency(islandMat)) {
+                    lakeTracker.remove(p);
+                    Log.d(TAG,"LAKE GEN: Removed water " + p.col + "," + p.row + " from lake tracker due to empty adjacency list");
+                }
+
+                // Else get the point, create forest in islandMat, and add to list
+                else if(new Random().nextDouble() < lakeGrowth.lEvolRateRand()){
+
+                    CreationPoint cP = p.getRandomPoint(islandMat);
+                    if(cP instanceof NullPoint) {
+                        Log.e(TAG,"LAKE GEN: getRandomPoint() returned NullPoint");
+                        return null;
+                    }
+
+                    islandMat[cP.col][cP.row] = w;
+                    Log.d(TAG, "LAKE GEN: On iteration " + i + " Water created at " + cP.col + "," + cP.row);
+
+                    cP = new CreationPoint(cP.col,cP.row,w);
+                    if(!cP.emptyAdjacency(islandMat)) {
+                        Log.d(TAG,"LAKE GEN: Water at " + cP.col + "," + cP.row + " added to lake tracker");
+                        lakeTracker.add(cP);
+                    } else {
+                        Log.d(TAG,"LAKE GEN: Water at " + cP.col + "," + cP.row + " NOT added to lake tracker");
+                    }
+                }
+
+            }
+        }
+
+        return islandMat;
+
+    }
+
     /// Generate Forest
     private static IslandLandType[][] genForest(IslandLandType[][] islandMat, ForestGrowth forestGrowth) {
 
@@ -169,14 +230,14 @@ public class IslandGenerator {
 
         ArrayList<CreationPoint> forestTracker = new ArrayList<>();
 
-        for(Point p : findSeedLocations(islandMat, f, forestGrowth.getSeed_count())) {
-            islandMat[p.col][p.row] = new Forest();
+        for(Point p : findSeedLocations(islandMat, f, forestGrowth.fSeedCountRand())) {
+            islandMat[p.col][p.row] = f;
             Log.d(TAG,"FOREST GEN: Added new Forest seed at " + p.col + "," + p.row);
             forestTracker.add(new CreationPoint(p.col, p.row, f));
         }
 
         // For every growth factor, evolve forests using evolution rates
-        for(int i = 0; i < forestGrowth.getGrowth_factor(); i++) {
+        for(int i = 0; i < forestGrowth.fGrowthFactRand(); i++) {
 
             // Break if no more grow-able forests
             if(forestTracker.isEmpty()) {
@@ -192,11 +253,11 @@ public class IslandGenerator {
                 // Remove if empty adjacency list
                 if(p.emptyAdjacency(islandMat)) {
                     forestTracker.remove(p);
-                    Log.d(TAG,"FOREST GEN: Removed point " + p.col + "," + p.row + " due to empty adjacency list");
+                    Log.d(TAG,"FOREST GEN: Removed forest " + p.col + "," + p.row + " from forest tracker due to empty adjacency list");
                 }
 
                 // Else get the point, create forest in islandMat, and add to list
-                else if(new Random().nextDouble() < forestGrowth.getForest_evolution_rate()){
+                else if(new Random().nextDouble() < forestGrowth.fEvolRateRand()){
 
                     CreationPoint cP = p.getRandomPoint(islandMat);
                     if(cP instanceof NullPoint) {
