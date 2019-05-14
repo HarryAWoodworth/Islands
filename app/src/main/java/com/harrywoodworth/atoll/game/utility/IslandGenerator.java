@@ -40,6 +40,9 @@ public class IslandGenerator {
         /* GENERATE BRUSH */
         islandMat = genBrush(islandMat);
 
+        /* GENERATE ROCKS */
+        islandMat = genRocks(islandMat, growth_package.getRock_growth());
+
         /* GENERATE LAKES */
         islandMat = genLakes(islandMat, growth_package.getLakeGrowth());
 
@@ -162,6 +165,45 @@ public class IslandGenerator {
 
     }
 
+    /// Generate Rocks
+    private static IslandLandType[][] genRocks(IslandLandType[][] islandMat, RockGrowth rockGrowth) {
+
+        Rock r = new Rock();
+
+        ArrayList<CreationPoint> rockTracker = new ArrayList<>();
+
+        for(Point p : findSeedLocations(islandMat, r, rockGrowth.rSeedCountRand())) {
+            islandMat[p.col][p.row] = r;
+            Log.d(TAG,"ROCK GEN: Added new Rock seed at " + p.col + "," + p.row);
+            rockTracker.add(new CreationPoint(p.col, p.row, r));
+        }
+
+        for(int i = 0; i < rockGrowth.rGrowthFactRand(); i++) {
+            if(rockTracker.isEmpty())
+                break;
+            ArrayList<CreationPoint> temp = new ArrayList<>(rockTracker);
+            for(CreationPoint cp : temp) {
+                if(cp.emptyAdjacency(islandMat)){
+                    rockTracker.remove(cp);
+                } else {
+                    CreationPoint newPoint = cp.getRandomPoint(islandMat);
+                    if(newPoint instanceof NullPoint) {
+                        Log.e(TAG,"ROCK CREATION: Null Point");
+                        return null;
+                    }
+                    islandMat[newPoint.col][newPoint.row] = r;
+                    newPoint.type = r;
+                    if(!newPoint.emptyAdjacency(islandMat))
+                        rockTracker.add(newPoint);
+                    rockTracker.remove(cp);
+                }
+            }
+        }
+
+        return islandMat;
+
+    }
+
     /// Generate Lakes
     private static IslandLandType[][] genLakes(IslandLandType[][] islandMat, LakeGrowth lakeGrowth) {
 
@@ -169,7 +211,7 @@ public class IslandGenerator {
 
         ArrayList<CreationPoint> lakeTracker = new ArrayList<>();
 
-        for(Point p : findSeedLocations(islandMat, w, lakeGrowth.getSeed_count())) {
+        for(Point p : findSeedLocations(islandMat, w, lakeGrowth.lSeedCountRand())) {
             islandMat[p.col][p.row] = w;
             Log.d(TAG,"LAKE GEN: Added new Lake seed at " + p.col + "," + p.row);
             lakeTracker.add(new CreationPoint(p.col, p.row, w));

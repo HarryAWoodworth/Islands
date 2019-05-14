@@ -24,12 +24,18 @@ public final class DesignManager {
     public static final double DEFAULT_LAKE_EVOLUTION_RATE = 0.6;
     public static final int DEFAULT_LAKE_GROWTH_FACTOR = 10;
     public static final int DEFAULT_LAKE_SEED_COUNT = 3;
-    public static final double RANDOM_LAKE_EVOLUTION_RATE(){ return getRandomDouble(0.4,0.8); }
-    public static final int RANDOM_LAKE_GROWTH_FACTOR(){ return getRandomInt(5,13); }
-    public static final int RANDOM_LAKE_SEED_COUNT(){ return getRandomInt(0,4); }
+    public static double RANDOM_LAKE_EVOLUTION_RATE(){ return getRandomDouble(0.4,0.8); }
+    public static int RANDOM_LAKE_GROWTH_FACTOR(){ return getRandomInt(5,13); }
+    public static int RANDOM_LAKE_SEED_COUNT(){ return getRandomInt(3,6); }
+
+
+    /// Rocks
+    public static final int DEFAULT_ROCK_GROWTH_FACTOR = 10;
+    public static final int DEFAULT_ROCK_SEED_COUNT = 1;
+    public static int RANDOM_ROCK_GROWTH_FACTOR(){ return getRandomInt(10,20); }
+    public static int RANDOM_ROCK_SEED_COUNT(){ return getRandomInt(0,4); }
 
     /// Forest
-
     public static final double DEFAULT_FOREST_EVOLUTION_RATE = 0.6;
     public static final int DEFAULT_FOREST_GROWTH_FACTOR = 10;
     public static final int DEFAULT_FOREST_SEED_COUNT = 3;

@@ -8,6 +8,7 @@
 
     <!-- Colors of each island land type -->
     <color name="sand">#f4e542</color>
+    <color name="rock">#65665e</color>
     <color name="brush">#cee825</color>
     <color name="forest">#20ba1b</color>
     <color name="apex_forest">#157a12</color>

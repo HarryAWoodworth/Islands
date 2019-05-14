@@ -11,10 +11,10 @@ public class Rock implements IslandLandType {
 
     @Override
     public boolean higherPrecedence(IslandLandType t) {
-        return     t instanceof Water
-                || t instanceof Sand
-                || t instanceof Forest
-                || t instanceof Brush;
+        return      t instanceof Sand
+                ||  t instanceof Forest
+                ||  t instanceof ApexForest
+                ||  t instanceof Brush;
     }
 
     @Override

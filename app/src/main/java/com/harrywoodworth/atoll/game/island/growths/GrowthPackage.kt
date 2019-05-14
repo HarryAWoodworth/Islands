@@ -6,5 +6,6 @@ data class GrowthPackage(
     var brushGrowth: BrushGrowth = BrushGrowth(),
     var lakeGrowth: LakeGrowth = LakeGrowth(),
     var forest_growth: ForestGrowth = ForestGrowth(),
-    var apex_forest_growth: ApexForestGrowth = ApexForestGrowth()
+    var apex_forest_growth: ApexForestGrowth = ApexForestGrowth(),
+    var rock_growth : RockGrowth = RockGrowth()
 )
