@@ -12,7 +12,8 @@ public class Forest implements IslandLandType {
     @Override
     public boolean higherPrecedence(IslandLandType t) {
         return     t instanceof Rock
-                || t instanceof Sand;
+                || t instanceof Sand
+                || t instanceof Brush;
     }
 
     @Override

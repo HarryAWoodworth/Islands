@@ -13,7 +13,8 @@ public class ApexForest implements IslandLandType {
     public boolean higherPrecedence(IslandLandType t) {
         return      t instanceof Forest
                 ||  t instanceof ApexForest
-                ||  t instanceof Sand;
+                ||  t instanceof Sand
+                ||  t instanceof Brush;
     }
 
     @Override

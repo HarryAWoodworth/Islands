@@ -44,6 +44,7 @@ public class IslandGridAdapter extends BaseAdapter {
         switch(c) {
             case DesignManager.CHAR_WATER : break;
             case DesignManager.CHAR_SAND : spaceView.setBackgroundResource(R.color.sand); break;
+            case DesignManager.CHAR_BRUSH : spaceView.setBackgroundResource(R.color.brush); break;
             case DesignManager.CHAR_FOREST : spaceView.setBackgroundResource(R.color.forest); break;
             case DesignManager.CHAR_APEX_FOREST : spaceView.setBackgroundResource(R.color.apex_forest); break;
             default : spaceView.setBackgroundResource(R.color.error);

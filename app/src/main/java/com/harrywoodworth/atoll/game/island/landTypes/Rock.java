@@ -13,7 +13,8 @@ public class Rock implements IslandLandType {
     public boolean higherPrecedence(IslandLandType t) {
         return     t instanceof Water
                 || t instanceof Sand
-                || t instanceof Forest;
+                || t instanceof Forest
+                || t instanceof Brush;
     }
 
     @Override

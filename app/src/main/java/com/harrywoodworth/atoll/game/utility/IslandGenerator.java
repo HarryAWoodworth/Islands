@@ -3,6 +3,7 @@ package com.harrywoodworth.atoll.game.utility;
 import android.util.Log;
 import com.harrywoodworth.atoll.game.island.growths.ApexForestGrowth;
 import com.harrywoodworth.atoll.game.island.CreationPoint;
+import com.harrywoodworth.atoll.game.island.growths.BrushGrowth;
 import com.harrywoodworth.atoll.game.island.growths.ForestGrowth;
 import com.harrywoodworth.atoll.game.island.Island;
 import com.harrywoodworth.atoll.game.island.growths.GrowthPackage;
@@ -33,6 +34,14 @@ public class IslandGenerator {
 
         /* GENERATE SAND */
         islandMat = genSand(islandMat, island_size);
+
+        if(islandMat == null) {
+            Log.e(TAG, "islandMat is null after Sand Generation");
+            return null;
+        }
+
+        /* GENERATE BRUSH */
+        islandMat = genBrush(islandMat);
 
         /* GENERATE FOREST */
         islandMat = genForest(islandMat, growth_package.getForest_growth());
@@ -127,6 +136,32 @@ public class IslandGenerator {
 
     }
 
+    /// Generate Brush
+    private static IslandLandType[][] genBrush(IslandLandType[][] islandMat) {
+
+        Brush brush = new Brush();
+
+        // Get every Sand
+        ArrayList<CreationPoint> sands = new ArrayList<>();
+        Sand s = new Sand();
+        for(int col = 0; col < islandMat.length; col++) {
+            for(int row = 0; row < islandMat[0].length; row++) {
+                if(islandMat[col][row] instanceof Sand)
+                    sands.add(new CreationPoint(col,row,s));
+            }
+        }
+
+        for(CreationPoint sand : sands) {
+            if(sand.emptyAdjacency(islandMat)) {
+                islandMat[sand.col][sand.row] = brush;
+                Log.d(TAG,"BRUSH GEN: Brush added at " + sand.col + "," + sand.row);
+            }
+        }
+
+        return islandMat;
+
+    }
+
     /// Generate Forest
     private static IslandLandType[][] genForest(IslandLandType[][] islandMat, ForestGrowth forestGrowth) {
 
@@ -190,7 +225,7 @@ public class IslandGenerator {
     /// Generate Apex Forest
     private static IslandLandType[][] genApexForest(IslandLandType[][] islandMat, ApexForestGrowth apexForestGrowth) {
 
-        // Get every forest
+        // Get every Forest
         ArrayList<CreationPoint> forests = new ArrayList<>();
         Forest f = new Forest();
         for(int col = 0; col < islandMat.length; col++) {
