@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import com.harrywoodworth.atoll.R;
 import com.harrywoodworth.atoll.game.island.Island;
 
 public class IslandGridAdapter extends BaseAdapter {
@@ -34,9 +35,22 @@ public class IslandGridAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
+
         TextView spaceView = new TextView(context);
-        String setText = "" +islandCode[position];
+        char c = islandCode[position];
+
+        switch(c) {
+            case DesignManager.CHAR_WATER : break;
+            case DesignManager.CHAR_SAND : spaceView.setBackgroundResource(R.color.sand); break;
+            case DesignManager.CHAR_FOREST : spaceView.setBackgroundResource(R.color.forest); break;
+            case DesignManager.CHAR_APEX_FOREST : spaceView.setBackgroundResource(R.color.apex_forest); break;
+            default : spaceView.setBackgroundResource(R.color.error);
+        }
+
+        String setText = "" + c;
         spaceView.setText(setText);
+
         return spaceView;
+
     }
 }

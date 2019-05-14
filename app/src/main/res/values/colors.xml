@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <!-- <color name="colorPrimaryDark">#00574B</color> -->
+    <color name="colorPrimaryDark">#008577</color>
     <color name="colorAccent">#D81B60</color>
-
+    <color name="error">#ff0000</color>
     <color name="black_overlay">#66000000</color>
+
+    <!-- Colors of each island land type -->
+    <color name="sand">#f4e542</color>
+    <color name="forest">#20ba1b</color>
+    <color name="apex_forest">#157a12</color>
+
 </resources>
