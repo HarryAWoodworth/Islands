@@ -1,6 +1,7 @@
 package com.harrywoodworth.atoll.game.utility;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -37,6 +38,7 @@ public class IslandGridAdapter extends BaseAdapter {
     public View getView(int position, View view, ViewGroup viewGroup) {
 
         TextView spaceView = new TextView(context);
+        spaceView.setGravity(Gravity.CENTER);
         char c = islandCode[position];
 
         switch(c) {
